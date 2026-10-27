@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+  --color-bg: #070812;
+  --color-surface: #0d0f1c;
+  --color-surface-2: #131629;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-brand: #7c6cff;
+  --color-brand-2: #22d3ee;
+  --color-up: #34d399;
+  --color-down: #fb7185;
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.2s linear infinite;
+  --animate-pulse-ring: pulseRing 1.6s ease-out infinite;
+  --animate-fade-up: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-marquee: marquee 40s linear infinite;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(2%, -4%, 0) scale(1.06); }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes pulseRing {
+    0% { transform: scale(0.8); opacity: 0.9; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 }
 
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: #e7e9f3;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11", "tnum";
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+::selection {
+  background: rgba(124, 108, 255, 0.4);
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.18); }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+
+@utility glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+}
+
+@utility glass-strong {
+  background: linear-gradient(180deg, rgba(19, 22, 41, 0.92), rgba(13, 15, 28, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+}
+
+@utility text-gradient {
+  background: linear-gradient(92deg, #c7c2ff 0%, #7c6cff 35%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility btn-primary {
+  position: relative;
+  color: white;
+  background: linear-gradient(135deg, #7c6cff 0%, #5b8dff 55%, #22d3ee 100%);
+  box-shadow: 0 10px 30px -10px rgba(124, 108, 255, 0.7), 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+.btn-primary:hover:not(:disabled) { filter: brightness(1.08); box-shadow: 0 14px 40px -10px rgba(124, 108, 255, 0.85), 0 1px 0 rgba(255, 255, 255, 0.25) inset; }
+.btn-primary:active:not(:disabled) { transform: translateY(1px) scale(0.995); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; filter: saturate(0.5); }
+
+@utility shimmer-bg {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.03) 100%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 70%);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
 }
